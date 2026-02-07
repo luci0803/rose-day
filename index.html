@@ -177,10 +177,7 @@
   <div class="hearts"></div>
 
   <!-- background music -->
-  <audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
-
+  <audio id="bgMusic" src="music.mp3" preload="auto"></audio>
   <div class="box">
 
     <!-- Screen 1 -->
@@ -282,7 +279,10 @@
       let music = document.getElementById("bgMusic");
 
       if(!playing){
-        music.play();
+        music.volume = 0.7;
+music.play().catch(err => {
+  alert("Tap the button again to start music 🎵");
+});
         playing = true;
         event.target.innerText = "⏸ Pause Music";
       } else {
