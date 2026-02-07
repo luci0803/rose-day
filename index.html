@@ -229,6 +229,7 @@
   </div>
 
   <script>
+    let noCount = 0;
     let noSize = 1;
     let playing = false;
 
@@ -249,6 +250,47 @@
     }
 
     function rejectRose(){
+  noCount++;
+
+  // First 2 times: normal grow + move
+  if(noCount < 3){
+    noSize += 0.4;
+    let noBtn = document.getElementById("noBtn");
+    noBtn.style.transform = "scale(" + noSize + ")";
+
+    let x = Math.floor(Math.random() * 150) - 70;
+    let y = Math.floor(Math.random() * 120) - 60;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    return;
+  }
+
+  // Third time: burst + message + last chance
+  if(noCount == 3){
+
+    // burst effect (confetti)
+    startConfetti();
+
+    // message popup
+    alert("It’s okay... you hate me moti 😭💔");
+
+    // change question text to last chance
+    document.querySelector("#screen2 p").innerText =
+      "Last chance... will you accept my rose? 🥺🌹";
+
+    // reset NO button position + size
+    let noBtn = document.getElementById("noBtn");
+    noBtn.style.transform = "scale(1)";
+    noBtn.style.left = "0px";
+    noBtn.style.top = "0px";
+
+    return;
+  }
+
+  // After 3 times: do nothing
+  return;
+}
       noSize += 0.4;
       let noBtn = document.getElementById("noBtn");
       noBtn.style.transform = "scale(" + noSize + ")";
