@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Propose Day 💍</title>
+
+<style>
+  body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0d0d1a,#2d0f3f,#0d0d1a);
+    height:100vh;
+    overflow-x:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+  }
+
+  .box{
+    width:90%;
+    max-width:420px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 25px;
+    text-align:center;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.15);
+    box-shadow:0 0 25px rgba(0,0,0,0.5);
+  }
+
+  h1{
+    margin:0;
+    font-size:32px;
+    font-weight:bold;
+  }
+
+  p{
+    font-size:16px;
+    opacity:0.9;
+  }
+
+  input{
+    width:90%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    font-size:16px;
+    margin-top:15px;
+    text-align:center;
+  }
+
+  .btn{
+    margin-top:18px;
+    padding:14px 35px;
+    border:none;
+    border-radius:30px;
+    background: linear-gradient(90deg,#ff2d7a,#ff7eb3);
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+  }
+
+  .hidden{
+    display:none;
+  }
+
+  .buttons{
+    display:flex;
+    justify-content:space-around;
+    margin-top:20px;
+    position:relative;
+  }
+
+  .btn2{
+    padding:14px 28px;
+    border:none;
+    border-radius:30px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+    position:relative;
+  }
+
+  .btnYes{
+    background: linear-gradient(90deg,#00c853,#66ff99);
+    color:white;
+  }
+
+  .btnNo{
+    background: linear-gradient(90deg,#ff1744,#ff5252);
+    color:white;
+  }
+
+  .note{
+    font-size:15px;
+    line-height:1.5;
+    margin-top:15px;
+    background: rgba(255,255,255,0.07);
+    padding:15px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+
+  .musicBox{
+    margin-top:20px;
+    background: rgba(255,255,255,0.07);
+    padding:15px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+
+  .song{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:10px 0;
+    padding:10px;
+    border-radius:12px;
+    background: rgba(0,0,0,0.25);
+  }
+
+  .song button{
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    background: rgba(255,255,255,0.15);
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+  }
+
+  .gameArea{
+    margin-top:20px;
+    width:100%;
+    height:300px;
+    border-radius:15px;
+    background: rgba(0,0,0,0.25);
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+
+  .catcher{
+    width:70px;
+    height:20px;
+    background: rgba(255,255,255,0.9);
+    border-radius:20px;
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  .heart{
+    position:absolute;
+    font-size:28px;
+    top:0;
+  }
+
+  .scoreBoard{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+    font-weight:bold;
+  }
+
+  .finalText{
+    font-size:18px;
+    margin-top:15px;
+    font-weight:bold;
+  }
+
+  .playAgain{
+    margin-top:20px;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    background: linear-gradient(90deg,#ff2d7a,#ff7eb3);
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+  }
+
+  /* Falling hearts */
+  .fallHeart{
+    position:fixed;
+    top:-20px;
+    font-size:22px;
+    opacity:0.8;
+    animation: fall linear forwards;
+    pointer-events:none;
+  }
+
+  @keyframes fall{
+    to{
+      transform: translateY(110vh);
+      opacity:0;
+    }
+  }
+
+  /* Confetti */
+  .confetti{
+    position:fixed;
+    width:10px;
+    height:10px;
+    top:-10px;
+    animation: confFall linear forwards;
+    z-index:999;
+  }
+
+  @keyframes confFall{
+    to{
+      transform: translateY(110vh) rotate(720deg);
+      opacity:0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO SONGS -->
+<audio id="song1" src="heeriye.mp3"></audio>
+<audio id="song2" src="kesariya.mp3"></audio>
+<audio id="song3" src="apnabanale.mp3"></audio>
+
+<!-- SCREEN 1 -->
+<div class="box" id="screen1">
+  <h1>Wait ✋💗</h1>
+  <p>Write your name first 😌</p>
+  <input type="text" id="name" placeholder="Enter your name">
+  <p id="warn" style="color:#ffaaaa; display:none;">Enter your name first 😭</p>
+  <button class="btn" onclick="goNext()">Continue</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="box hidden" id="screen2">
+  <h1>Happy Propose Day 💍💗</h1>
+  <h2 id="helloText"></h2>
+
+  <div class="note">
+    <b>My Love ❤️</b><br><br>
+    Today is Propose Day and I just want to say…<br>
+    You are the most special person in my life 😭💗<br><br>
+    You make my days brighter, my heart calmer, and my life happier.<br>
+    I don’t want anyone else… I only want YOU 🥺💍<br><br>
+    So today… I want to ask you something from my heart ❤️
+  </div>
+
+  <p id="questionText" style="margin-top:20px; font-size:18px;">
+    Will you accept my proposal? 🥺💍
+  </p>
+
+  <div class="buttons">
+    <button class="btn2 btnYes" onclick="acceptProposal()">Yes 💗</button>
+    <button class="btn2 btnNo" id="noBtn" onclick="rejectProposal()">No 😭</button>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="box hidden" id="screen3">
+  <h1>YAYYY 😭💗</h1>
+  <p style="font-size:18px;">
+    You just made me the happiest person alive 🥺💍❤️
+  </p>
+
+  <div class="musicBox">
+    <h2>Some Music 🎶</h2>
+
+    <div class="song">
+      <span>Heeriye 💗</span>
+      <button onclick="playSong(1)">Play</button>
+    </div>
+
+    <div class="song">
+      <span>Kesariya ✨</span>
+      <button onclick="playSong(2)">Play</button>
+    </div>
+
+    <div class="song">
+      <span>Apna Bana Le 🥺</span>
+      <button onclick="playSong(3)">Play</button>
+    </div>
+
+    <button class="btn" onclick="goGame()">Next 💕</button>
+  </div>
+</div>
+
+<!-- SCREEN 4 GAME -->
+<div class="box hidden" id="screen4">
+  <h1>Catch the Hearts 💗</h1>
+  <p>Drag the catcher & collect hearts. Miss 3 times and game ends 😭</p>
+
+  <div class="scoreBoard">
+    <span>Caught: <span id="caught">0</span></span>
+    <span>Missed: <span id="missed">0</span>/3</span>
+    <span>Goal: <span id="goal">0</span>/12</span>
+  </div>
+
+  <div class="gameArea" id="gameArea">
+    <div class="catcher" id="catcher"></div>
+  </div>
+
+  <p class="finalText" id="finalMsg"></p>
+
+  <button class="btn hidden" id="finalBtn" onclick="goFinal()">Next 💍</button>
+</div>
+
+<!-- SCREEN 5 FINAL -->
+<div class="box hidden" id="screen5">
+  <h1>One Last Question 💍💗</h1>
+  <p style="font-size:18px;">
+    Will you be mine forever? 🥺❤️
+  </p>
+
+  <div class="buttons">
+    <button class="btn2 btnYes" onclick="finalYes()">YESSS 💍💗</button>
+    <button class="btn2 btnNo" onclick="finalNo()">No 😭</button>
+  </div>
+</div>
+
+<!-- SCREEN 6 END -->
+<div class="box hidden" id="screen6">
+  <h1>OMG 😭💍❤️</h1>
+  <p style="font-size:18px;">
+    I promise I’ll love you forever and ever 🥺💗<br><br>
+    Happy Propose Day my love ❤️💍✨
+  </p>
+
+  <button class="playAgain" onclick="restart()">Play Again ✨</button>
+</div>
+
+<script>
+  let noCount = 0;
+  let noSize = 1;
+
+  let caught = 0;
+  let missed = 0;
+  let goal = 0;
+  let gameRunning = false;
+
+  function goNext(){
+    let n = document.getElementById("name").value.trim();
+    if(n === ""){
+      document.getElementById("warn").style.display="block";
+      return;
+    }
+
+    document.getElementById("warn").style.display="none";
+    document.getElementById("screen1").classList.add("hidden");
+    document.getElementById("screen2").classList.remove("hidden");
+
+    document.getElementById("helloText").innerText = "Hey " + n + " 💕";
+
+    startHearts();
+  }
+
+  function rejectProposal(){
+    noCount++;
+
+    // first 2 times move + grow
+    if(noCount < 3){
+      noSize += 0.4;
+      let noBtn = document.getElementById("noBtn");
+      noBtn.style.transform = "scale(" + noSize + ")";
+
+      let x = Math.floor(Math.random()*180) - 90;
+      let y = Math.floor(Math.random()*120) - 60;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+      return;
+    }
+
+    // 3rd time: burst + message + last chance
+    if(noCount === 3){
+      startConfetti();
+      alert("It’s okay... you hate me moti 😭💔");
+
+      document.getElementById("questionText").innerText =
+        "Last chance... will you accept my proposal? 🥺💍";
+
+      let noBtn = document.getElementById("noBtn");
+      noBtn.style.transform = "scale(1)";
+      noBtn.style.left = "0px";
+      noBtn.style.top = "0px";
+
+      return;
+    }
+
+    // after 3, keep same
+    alert("You’re still pressing NO?? 😭💔");
+  }
+
+  function acceptProposal(){
+    startConfetti();
+    document.getElementById("screen2").classList.add("hidden");
+    document.getElementById("screen3").classList.remove("hidden");
+  }
+
+  function stopAll(){
+    document.getElementById("song1").pause();
+    document.getElementById("song2").pause();
+    document.getElementById("song3").pause();
+
+    document.getElementById("song1").currentTime = 0;
+    document.getElementById("song2").currentTime = 0;
+    document.getElementById("song3").currentTime = 0;
+  }
+
+  function playSong(num){
+    stopAll();
+    document.getElementById("song"+num).play();
+  }
+
+  function goGame(){
+    document.getElementById("screen3").classList.add("hidden");
+    document.getElementById("screen4").classList.remove("hidden");
+    startGame();
+  }
+
+  // GAME FUNCTION
+  function startGame(){
+    caught = 0;
+    missed = 0;
+    goal = 0;
+    gameRunning = true;
+
+    document.getElementById("caught").innerText = caught;
+    document.getElementById("missed").innerText = missed;
+    document.getElementById("goal").innerText = goal;
+    document.getElementById("finalMsg").innerText = "";
+    document.getElementById("finalBtn").classList.add("hidden");
+
+    spawnHearts();
+  }
+
+  function spawnHearts(){
+    if(!gameRunning) return;
+
+    let heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💗";
+
+    let gameArea = document.getElementById("gameArea");
+    let areaWidth = gameArea.offsetWidth;
+
+    heart.style.left = Math.random()*(areaWidth-30) + "px";
+    heart.style.top = "0px";
+
+    gameArea.appendChild(heart);
+
+    let speed = 2 + Math.random()*2;
+    let fallInterval = setInterval(()=>{
+      if(!gameRunning){
+        clearInterval(fallInterval);
+        heart.remove();
+        return;
+      }
+
+      let top = parseFloat(heart.style.top);
+      heart.style.top = (top + speed) + "px";
+
+      let catcher = document.getElementById("catcher");
+      let catcherRect = catcher.getBoundingClientRect();
+      let heartRect = heart.getBoundingClientRect();
+
+      // collision
+      if(
+        heartRect.bottom >= catcherRect.top &&
+        heartRect.left <= catcherRect.right &&
+        heartRect.right >= catcherRect.left
+      ){
+        caught++;
+        goal++;
+        document.getElementById("caught").innerText = caught;
+        document.getElementById("goal").innerText = goal;
+        heart.remove();
+        clearInterval(fallInterval);
+
+        if(goal >= 12){
+          gameRunning = false;
+          document.getElementById("finalMsg").innerText =
+            "OMG YOU DID IT 😭💗 Now last question...";
+          document.getElementById("finalBtn").classList.remove("hidden");
+        }
+
+        return;
+      }
+
+      // missed
+      if(top > 280){
+        missed++;
+        document.getElementById("missed").innerText = missed;
+        heart.remove();
+        clearInterval(fallInterval);
+
+        if(missed >= 3){
+          gameRunning = false;
+          document.getElementById("finalMsg").innerText =
+            "Aww you missed too many 😭💔 but it's okay cutie 💗";
+          document.getElementById("finalBtn").classList.remove("hidden");
+        }
+      }
+    }, 20);
+
+    setTimeout(spawnHearts, 800);
+  }
+
+  // drag catcher
+  const catcher = document.getElementById("catcher");
+  const gameArea = document.getElementById("gameArea");
+
+  let dragging = false;
+
+  catcher.addEventListener("touchstart", ()=> dragging = true);
+  catcher.addEventListener("touchend", ()=> dragging = false);
+
+  gameArea.addEventListener("touchmove", (e)=>{
+    if(!dragging) return;
+    let touch = e.touches[0];
+    let rect = gameArea.getBoundingClientRect();
+    let x = touch.clientX - rect.left;
+
+    if(x < 35) x = 35;
+    if(x > rect.width - 35) x = rect.width - 35;
+
+    catcher.style.left = x + "px";
+    catcher.style.transform = "translateX(-50%)";
+  });
+
+  function goFinal(){
+    document.getElementById("screen4").classList.add("hidden");
+    document.getElementById("screen5").classList.remove("hidden");
+  }
+
+  function finalYes(){
+    startConfetti();
+    document.getElementById("screen5").classList.add("hidden");
+    document.getElementById("screen6").classList.remove("hidden");
+
+    stopAll();
+    playSong(3); // Apna Bana Le auto
+  }
+
+  function finalNo(){
+    alert("NO?? 😭💔 okay but I still love you moti 🥺💗");
+  }
+
+  function restart(){
+    location.reload();
+  }
+
+  // Falling hearts background
+  function startHearts(){
+    setInterval(()=>{
+      let h = document.createElement("div");
+      h.classList.add("fallHeart");
+      h.innerHTML = "💗";
+      h.style.left = Math.random()*100 + "vw";
+      h.style.animationDuration = (3 + Math.random()*3) + "s";
+      document.body.appendChild(h);
+
+      setTimeout(()=>h.remove(), 6000);
+    }, 400);
+  }
+
+  // Confetti
+  function startConfetti(){
+    for(let i=0;i<80;i++){
+      const c = document.createElement("div");
+      c.classList.add("confetti");
+      c.style.left = Math.random()*100 + "vw";
+      c.style.background = `hsl(${Math.random()*360},100%,70%)`;
+      c.style.animationDuration = (2 + Math.random()*2) + "s";
+      document.body.appendChild(c);
+
+      setTimeout(()=>c.remove(), 4000);
+    }
+  }
+</script>
+
+</body>
+</html>
